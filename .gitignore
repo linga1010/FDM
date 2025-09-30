@@ -1,0 +1,51 @@
+# --- Logs ---
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# --- Node modules ---
+node_modules/
+frontend-react/node_modules/
+
+# --- Build outputs ---
+dist/
+build/
+frontend-react/build/
+.cache/
+.parcel-cache/
+.next/
+out/
+.turbo/
+
+# --- Coverage ---
+coverage/
+
+# --- Environment files ---
+.env
+.env.*
+.env.local
+.env.*.local
+frontend-react/.env
+frontend-react/.env.local
+
+# --- Editor & OS metadata ---
+.vscode/
+.idea/
+.history/
+.DS_Store
+Thumbs.db
+
+# --- Lint/TypeScript caches ---
+.eslintcache
+*.tsbuildinfo
+
+# --- Tailwind cache ---
+.tailwindcache
+
+# --- Misc ---
+*.local
+
