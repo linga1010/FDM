@@ -51,7 +51,10 @@ const History = () => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
+    // Add 5 hours and 30 minutes
+    date.setHours(date.getHours() + 5);
+    date.setMinutes(date.getMinutes() + 30);
+    return date.toLocaleString('en-US', {
       year: 'numeric',
       month: 'short',
       day: 'numeric',

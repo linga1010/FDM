@@ -283,7 +283,7 @@ const PersonalityTest = () => {
                 type="range"
                 min="0"
                 max="10"
-                step="0.5"
+                step="0.1"
                 value={currentValue}
                 onChange={(e) => handleSliderChange(currentFeature, e.target.value)}
                 className="personality-slider"
