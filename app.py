@@ -382,6 +382,18 @@ def get_test_result(test_id):
     except Exception as e:
         return jsonify({'message': 'Internal server error'}), 500
 
+@app.route('/', methods=['GET'])
+def home():
+    return jsonify({
+        'message': 'FDM Personality Test API',
+        'status': 'running',
+        'version': '1.0'
+    })
+
+@app.route('/health', methods=['GET'])
+def health():
+    return jsonify({'status': 'healthy'}), 200
+
 @app.route('/api/features', methods=['GET'])
 def get_features():
     return jsonify({'features': feature_names})
@@ -405,4 +417,5 @@ def test_auth():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
