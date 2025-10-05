@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
+import API_URL from '../config';
 import { 
   ClockIcon, 
   UserIcon, 
@@ -25,7 +26,7 @@ const History = () => {
   const fetchHistory = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:5000/api/history', {
+      const response = await fetch(`${API_URL}/api/history`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,

@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import API_URL from '../config';
 
 const AuthContext = createContext({});
 
@@ -32,7 +33,7 @@ export const AuthProvider = ({ children }) => {
 
   const verifyToken = async () => {
     try {
-      const response = await axios.get('/api/auth/verify');
+      const response = await axios.get(`${API_URL}/api/auth/verify`);
       setUser(response.data.user);
     } catch (error) {
       console.error('Token verification failed:', error);
@@ -44,7 +45,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const response = await axios.post('/api/auth/login', {
+      const response = await axios.post(`${API_URL}/api/auth/login`, {
         email,
         password
       });
@@ -67,7 +68,7 @@ export const AuthProvider = ({ children }) => {
 
   const signup = async (name, email, password) => {
     try {
-      const response = await axios.post('/api/auth/signup', {
+      const response = await axios.post(`${API_URL}/api/auth/signup`, {
         name,
         email,
         password
@@ -97,7 +98,7 @@ export const AuthProvider = ({ children }) => {
 
   const updateProfile = async (profileData) => {
     try {
-      const response = await axios.put('/api/auth/profile', profileData);
+      const response = await axios.put(`${API_URL}/api/auth/profile`, profileData);
       setUser(response.data.user);
       toast.success('Profile updated successfully');
       return { success: true };

@@ -10,6 +10,7 @@ import {
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useAuth } from '../contexts/AuthContext';
+import API_URL from '../config';
 
 const PersonalityTest = () => {
   const navigate = useNavigate();
@@ -100,7 +101,7 @@ const PersonalityTest = () => {
 
   const fetchFeatures = async () => {
     try {
-      const response = await axios.get('/api/features');
+      const response = await axios.get(`${API_URL}/api/features`);
       setFeatures(response.data.features);
       
       // Initialize responses with middle values
@@ -169,11 +170,11 @@ const PersonalityTest = () => {
       console.log('Testing authentication...');
       console.log('Current token:', token ? 'Token exists' : 'No token found');
       console.log('Axios auth header:', axios.defaults.headers.common['Authorization']);
-      const authTest = await axios.get('/api/test-auth');
+      const authTest = await axios.get(`${API_URL}/api/test-auth`);
       console.log('Auth test successful:', authTest.data);
       
       // Then submit the actual test
-      const response = await axios.post('/api/predict', responses);
+      const response = await axios.post(`${API_URL}/api/predict`, responses);
       toast.success('Test completed successfully!');
       navigate(`/results/${response.data.test_id}`);
     } catch (error) {

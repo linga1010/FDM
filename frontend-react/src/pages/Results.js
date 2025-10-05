@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import API_URL from '../config';
 import { 
   UserIcon, 
   ChartBarIcon, 
@@ -29,10 +30,10 @@ const Results = () => {
       
       if (testId) {
         // Fetch specific test result
-        response = await axios.get(`/api/test/${testId}`);
+        response = await axios.get(`${API_URL}/api/test/${testId}`);
       } else {
         // Fetch latest test result from history
-        const historyResponse = await axios.get('/api/history');
+        const historyResponse = await axios.get(`${API_URL}/api/history`);
         if (historyResponse.data.history && historyResponse.data.history.length > 0) {
           const latestTest = historyResponse.data.history[0];
           response = { data: latestTest };
