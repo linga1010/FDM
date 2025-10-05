@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
+import API_URL from '../config';
 import { 
   UserIcon, 
   EnvelopeIcon, 
@@ -18,10 +19,11 @@ const Profile = () => {
   const [historyStats, setHistoryStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const { token, user } = useAuth();
+  const { token } = useAuth();
 
   useEffect(() => {
     fetchProfileData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchProfileData = async () => {
@@ -30,7 +32,7 @@ const Profile = () => {
       setError('');
 
       // Fetch user profile
-      const profileResponse = await fetch('http://localhost:5000/api/auth/profile', {
+      const profileResponse = await fetch(`${API_URL}/api/auth/profile`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -44,7 +46,7 @@ const Profile = () => {
       const profile = await profileResponse.json();
 
       // Fetch test history for statistics
-      const historyResponse = await fetch('http://localhost:5000/api/history', {
+      const historyResponse = await fetch(`${API_URL}/api/history`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,

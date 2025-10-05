@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { motion } from 'framer-motion';
+import API_URL from '../config';
 import { 
   ChartBarIcon, 
   ClipboardDocumentListIcon as ClipboardListIcon, 
@@ -24,11 +25,12 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetchDashboardData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchDashboardData = async () => {
     try {
-      const response = await axios.get('/api/history');
+      const response = await axios.get(`${API_URL}/api/history`);
       const history = response.data.history;
       
       setStats({
