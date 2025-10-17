@@ -3,10 +3,8 @@
 ## 🌐 Live Deployment
 
 * **Frontend (Netlify):** [https://unique-capybara-238e67.netlify.app/login](https://unique-capybara-238e67.netlify.app/login)
-* **Backend (Render):** `https://<your-render-service>.onrender.com`
-
-  > Replace the above URL with your actual Render backend link.
-
+* **Backend (Render):** 
+ 
 ---
 
 ## 📘 Overview
