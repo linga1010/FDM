@@ -1,141 +1,151 @@
-# AI Personality Predictor - React + Flask Application
+# AI Personality Predictor — React + Flask
 
-## 🚀 Complete Project Setup
+**Live Demo (Frontend)**: [https://unique-capybara-238e67.netlify.app/login](https://unique-capybara-238e67.netlify.app/login)
 
-### Prerequisites
-- Python 3.8+ 
-- Node.js 16+
-- npm or yarn
+**Backend hosted on**: Render (replace with your Render service URL below)
 
-### 🎯 Installation Steps
+---
 
-#### 1. Backend Setup (Flask + SQLite)
+## Overview
+
+A full-stack personality prediction app using a Flask backend (ML model + JWT auth + SQLite) and a React frontend (Tailwind CSS). This repository contains everything needed to run locally and points to the deployed frontend & backend.
+
+---
+
+## Deployed URLs
+
+* **Frontend (Netlify)**: [https://unique-capybara-238e67.netlify.app/login](https://unique-capybara-238e67.netlify.app/login)
+* **Backend (Render)**: `https://<your-render-service>.onrender.com`
+  *Replace the above placeholder with the actual Render service URL (e.g. `https://my-ai-backend.onrender.com`).*
+
+> The frontend is deployed to Netlify and the backend is deployed to Render. The frontend expects the backend API URL to be available via an environment variable or frontend configuration.
+
+---
+
+## Quick Start — Local Development
+
+### Backend (Flask)
 
 ```bash
-# Navigate to project root
+# From project root
 cd FDM
-
-# Create virtual environment
 python -m venv .venv
-
-# Activate virtual environment
-# Windows:
-.venv\Scripts\activate
-# macOS/Linux:
-source .venv/bin/activate
-
-# Install Python dependencies
+# Activate virtual env
+# Windows: .venv\Scripts\activate
+# macOS/Linux: source .venv/bin/activate
 pip install -r requirements.txt
-
-# Run the Flask backend
+# Create DB automatically by running the app
 python app.py
 ```
 
-Backend will run on http://localhost:5000
+The backend runs on `http://localhost:5000` by default.
 
-#### 2. Frontend Setup (React)
+### Frontend (React)
 
 ```bash
-# Navigate to React frontend folder
 cd frontend-react
-
-# Install Node dependencies
 npm install
-
-# Start the React development server
 npm start
 ```
 
-Frontend will run on http://localhost:3000
+The frontend runs on `http://localhost:3000` by default.
 
-### 🏗️ Project Structure
+**Tip:** When developing locally, make sure the frontend's API base URL points to `http://localhost:5000` (or to your deployed Render URL when using the hosted backend).
+
+---
+
+## Environment / Deployment Notes
+
+### Frontend (Netlify)
+
+* Use environment variables in Netlify settings to expose the backend API URL to the React app. Common key name: `REACT_APP_API_URL` or `VITE_API_URL` depending on your setup.
+* Example Netlify environment variable:
+
+  * `REACT_APP_API_URL = https://<your-render-service>.onrender.com`
+* Configure *redirects* or `_headers` in `public/_redirects` if you need custom path handling.
+
+### Backend (Render)
+
+* Deploy the Flask app to Render as a web service. Make sure to:
+
+  * Set environment variables (e.g. `SECRET_KEY`, any model path config, DB path if needed).
+  * Enable CORS (the app already supports CORS if configured).
+  * Ensure `gunicorn` is used in `start` command (Render best practice):
+
+    ```bash
+    gunicorn app:app
+    ```
+* If using SQLite on Render, remember Render's ephemeral filesystem caveats. For persistent DB in production consider a managed Postgres service and update `SQLALCHEMY_DATABASE_URI`.
+
+---
+
+## Update Frontend to Use Deployed Backend
+
+1. In your React project, set the API baseURL to the Render URL. Example using an `.env` file:
 
 ```
-FDM/
-├── app.py                 # Flask backend with authentication & ML
-├── requirements.txt       # Python dependencies
-├── features.json         # ML feature definitions
-├── joblib/              # Trained ML models
-│   ├── final_gnb_personality_model.joblib
-│   └── personality_label_encoder.joblib
-├── personality_app.db   # SQLite database (auto-created)
-└── frontend-react/      # React application
-    ├── package.json
-    ├── public/
-    ├── src/
-    │   ├── components/   # Reusable components
-    │   ├── contexts/     # React context (auth)
-    │   ├── pages/        # Page components
-    │   ├── App.js
-    │   └── index.js
-    └── tailwind.config.js
+REACT_APP_API_URL=https://<your-render-service>.onrender.com
 ```
 
-### 🔧 Key Features Implemented
+2. In code, read `process.env.REACT_APP_API_URL` and use it for all fetch/axios requests. Example:
 
-#### ✅ **Backend (Flask)**
-- **JWT Authentication** - Secure login/signup with tokens
-- **SQLite Database** - User accounts and test history storage
-- **Enhanced ML API** - Confidence scores and detailed predictions
-- **Personality Advice System** - Personalized recommendations
-- **CORS Enabled** - Cross-origin requests from React frontend
-
-#### ✅ **Frontend (React)**
-- **Modern UI** - Tailwind CSS with animations
-- **Authentication Flow** - Login/signup with protected routes
-- **Interactive Test** - Step-by-step personality assessment
-- **User Dashboard** - Statistics and recent tests
-- **Responsive Design** - Mobile-friendly interface
-- **Real-time Feedback** - Live slider updates with descriptions
-
-#### ✅ **User Experience Improvements**
-- **Intuitive Sliders** - No more decimal input confusion!
-- **Visual Feedback** - Color-coded responses with descriptions
-- **Progress Tracking** - Step-by-step completion indicators
-- **Personalized Advice** - Tailored recommendations per personality type
-- **Test History** - Track personality changes over time
-
-### 🎮 How to Use
-
-1. **Start both servers** (Flask backend + React frontend)
-2. **Visit** http://localhost:3000
-3. **Sign up** for a new account or use demo credentials:
-   - Email: `demo@example.com`
-   - Password: `demo123`
-4. **Take the test** using interactive sliders
-5. **View results** with confidence scores and advice
-6. **Track history** of all your personality tests
-
-### 🔮 Next Steps for Development
-
-#### Planned Enhancements:
-- **Enhanced Results Page** - Detailed charts and visualizations
-- **History Analytics** - Personality trend analysis over time
-- **Social Features** - Compare with friends (optional)
-- **Export Results** - PDF reports generation
-- **Mobile App** - React Native version
-
-### 🐛 Troubleshooting
-
-#### Common Issues:
-1. **CORS errors** - Make sure Flask backend is running on port 5000
-2. **Database errors** - SQLite DB will be created automatically on first run
-3. **Module not found** - Ensure all dependencies are installed in virtual environment
-4. **Port conflicts** - Change ports in package.json (React) or app.py (Flask)
-
-### 📊 Database Schema
-
-```sql
-Users Table:
-- id (Primary Key)
-- name, email, password_hash
-- created_at, updated_at
-
-PersonalityTest Table:
-- id (Primary Key)
-- user_id (Foreign Key)
-- features (JSON), prediction, confidence
-- probabilities (JSON), created_at
+```js
+const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+axios.defaults.baseURL = API_BASE;
 ```
 
-This setup transforms your simple HTML form into a comprehensive, production-ready personality assessment platform! 🎉
+3. Rebuild and redeploy the frontend to Netlify.
+
+---
+
+## CORS & Security
+
+* Ensure CORS allows requests from the Netlify frontend domain. Example Flask-CORS usage:
+
+```py
+from flask_cors import CORS
+CORS(app, resources={r"/api/*": {"origins": "https://unique-capybara-238e67.netlify.app"}})
+```
+
+* Use HTTPS on both frontend and backend in production (Netlify and Render provide HTTPS by default).
+
+---
+
+## Database & Models
+
+* `personality_app.db` — SQLite DB used for development/local runs.
+* `joblib/` — contains the trained ML model and encoders. Ensure these files are present in the deployed backend build or accessible via an attached storage if you change infra.
+
+---
+
+## Troubleshooting
+
+* **CORS errors**: Confirm backend CORS origin includes the Netlify domain and that the frontend sends correct headers.
+* **Wrong API URL**: Double-check `REACT_APP_API_URL` (Netlify env) or axios baseURL.
+* **Database persistence on Render**: If tests/history disappear on redeploy, migrate to a managed DB like Postgres.
+
+---
+
+## Demo Credentials (for quick test)
+
+* Email: `demo@example.com`
+* Password: `demo123`
+
+---
+
+## Future Improvements
+
+* Analytics & trend charts
+* Exportable PDF reports
+* Social / comparison features
+* Migrate to Postgres for production data durability
+
+---
+
+## License & Credits
+
+Include your license details here.
+
+---
+
+If you want, I can also replace the Render placeholder with the exact backend URL and update the Netlify environment variable block — just drop the Render service URL and I'll update the README accordingly.
